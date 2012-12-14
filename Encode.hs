@@ -26,6 +26,7 @@ encode pal source = map enc
                 Nothing  -> err
     k i = mkKey (source ! (i + 0)) (source ! (i + 1))
                 (source ! (i + 2)) (source ! (i + 3))
+    {-# INLINE k #-}
 
 maxPaletteSize :: Int
 maxPaletteSize = 256
@@ -52,6 +53,9 @@ palette pal source beg end
       i = 4 * beg
       key = mkKey (source ! (i + 0)) (source ! (i + 1))
                   (source ! (i + 2)) (source ! (i + 3))
+      {-# INLINE entry #-}
+      {-# INLINE i #-}
+      {-# INLINE key #-}
 
 encPallete :: Palette -> IO ()
 encPallete pal = do
