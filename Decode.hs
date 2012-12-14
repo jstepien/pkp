@@ -11,6 +11,7 @@ decode contents = concatMap (toRGBA . (palette !)) $ unpack pixelData
   where
     toRGBA :: Word32 -> [Word8]
     toRGBA x = map (fi . (.&. 0xff)) [x, x .>>. 8, x .>>. 16, x .>>. 24]
+    {-# INLINE toRGBA #-}
     toWord r g b a = fi r + (fi g .<<. 8) + (fi b .<<. 16) + (fi a .<<. 24)
     bytes = B.unpack contents
     cols = 1 + fi (head bytes) :: Int
@@ -31,6 +32,7 @@ decode contents = concatMap (toRGBA . (palette !)) $ unpack pixelData
       | otherwise  = id
     unp mask offs = concatMap $ \b -> map ((.&. mask) .  (b .>>.)) offs
     a .>>. b = shiftR a b
+    {-# INLINE (.>>.) #-}
     a .<<. b = shiftL a b
 
 main :: IO ()
