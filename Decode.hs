@@ -1,7 +1,7 @@
 module Main where
 
-import Data.ByteString (ByteString)
-import qualified Data.ByteString as B
+import Data.ByteString.Lazy (ByteString)
+import qualified Data.ByteString.Lazy as B
 import Data.Bits
 import Data.Word (Word8, Word32)
 import Data.Array.Unboxed
@@ -36,10 +36,4 @@ decode contents = concatMap (toRGBA . (palette !)) $ unpack pixelData
 main :: IO ()
 main = do
   bs <- B.getContents
-  keepPrinting $ decode $ B.drop 2 bs
-  where
-    keepPrinting bs = let (hd, tl) = splitAt 64 bs in do
-      B.putStr $ B.pack hd
-      if null tl
-        then return ()
-        else keepPrinting tl
+  B.putStr $ B.pack $ decode $ B.drop 2 bs
