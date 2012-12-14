@@ -7,13 +7,14 @@ of this acronym.
 
 ## Benchmarks
 
-              JPEG     PNG     PKP    PKP/PNG
-    pic       669k     53k     41k        77%
-    lena      197k    187k    180k        96%
-    hn1212    327k     61k     49k        79%
+              Size         JPEG     PNG     PKP   PKP/PNG   Enc.  Dec.
+    pic       1728x2376    669k     53k     41k       77%   1.40  0.76
+    lena      512x512      197k    187k    180k       96%   0.23  0.08
+    hn1212    1077x672     327k     61k     49k       79%   0.40  0.16
 
 JPEGs were compressed using [ImageMagick][im]'s `convert` with quality 95%.
-PNGs were compressed using [optipng][optipng] with the `-o7` flag.
+PNGs were compressed using [optipng][optipng] with the `-o7` flag. `Enc.` is
+time of encoding RGBO data as PKP. `Dec.` is time of decoding PKP back to RGBO.
 
   - `pic` is [the black and white fax picture from the Calgary Corpus][pic],
   - `lena` is the legendary [Lena][lena] reduced to 256 colours,
