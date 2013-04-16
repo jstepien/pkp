@@ -33,7 +33,8 @@ which shows how the library can be used can be found in `pkp.c`.
 
 ## Building
 
-Be sure to have [xz][xz], [GHC][ghc] and Python installed. Afterwards execute
+Be sure to have [xz][xz], [GHC][ghc], [containers][containers]
+and Python installed. Afterwards execute
 
     ./waf configure --prefix /usr/local
     ./waf
@@ -115,3 +116,4 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   [hilb]: http://en.wikipedia.org/wiki/Hilbert_curve
   [lzma]: http://en.wikipedia.org/wiki/LZMA
   [pkp]: http://en.wikipedia.org/wiki/Polish_State_Railways
+  [containers]: http://hackage.haskell.org/package/containers
