@@ -5,6 +5,8 @@ which (ab)uses [xz][xz] to do all the hard work. At the moment of writing PKP
 stands for _Perversely Kompressed Pictures_, but I'm open for better expansions
 of this acronym.
 
+[![Build Status](https://travis-ci.org/jstepien/pkp.png?branch=master)](https://travis-ci.org/jstepien/pkp)
+
 ## Benchmarks
 
               Size         JPEG     PNG     PKP   PKP/PNG   Enc.  Dec.
