@@ -1,0 +1,9 @@
+language: haskell
+script:
+  - ./waf configure --prefix /usr/local
+  - ./waf
+  - sudo ./waf install
+  - ./test.sh
+install:
+  - sudo apt-get install imagemagick
+  - cabal install containers -O
