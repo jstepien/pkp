@@ -93,7 +93,7 @@ static int run(const char *cmd, char *out, size_t nout, char *in, size_t nin) {
 }
 
 int pkp_compress(char *out, size_t nout, char *in, size_t nin, int width) {
-  const char *fmt = PREFIX "/lib/" APPNAME "/Encode %i | xz";
+  const char *fmt = PREFIX "/lib/" APPNAME "/encode %i | xz";
   const size_t bufsize = 255;
   char buf[bufsize + 1];
   if (width <= 0 ||
@@ -108,5 +108,5 @@ int pkp_decompress(char *out, size_t nout, char *in, size_t nin, int* width) {
   run("unxz | head -c 2", out, nout, in, nin);
   signal(SIGPIPE, SIG_DFL);
   *width = ((unsigned char) out[0] << 8) + (unsigned char) out[1];
-  return run("unxz |" PREFIX "/lib/" APPNAME "/Decode", out, nout, in, nin);
+  return run("unxz |" PREFIX "/lib/" APPNAME "/decode", out, nout, in, nin);
 }

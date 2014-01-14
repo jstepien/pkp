@@ -4,24 +4,24 @@ from waflib import Task
 APPNAME = 'libpkp'
 VERSION = 'unstable'
 
-@extension('.hs')
+@extension('.rs')
 def hs_file(self, node):
   out_source = node.change_ext('')
-  tsk = self.create_task('ghc')
+  tsk = self.create_task('rustc')
   tsk.set_inputs(node)
   tsk.set_outputs(out_source)
   tsk.build_path = node.parent.get_bld().abspath()
   tsk.install_path = '${PREFIX}/lib'
 
-class ghc(Task.Task):
-  run_str = 'ln -fs ${SRC} ${tsk.build_path} && ${GHC} -O -Wall -v0 ${TGT}'
+class rustc(Task.Task):
+  run_str = 'true && ${RUSTC} -O -o $(basename ${TGT}) ${SRC}'
 
 def options(opt):
   opt.load('compiler_c')
 
 def configure(conf):
   conf.load('compiler_c')
-  conf.find_program('ghc', var='GHC')
+  conf.find_program('rustc', var='RUSTC')
   conf.find_program('xz')
   conf.find_program('unxz')
   conf.define('APPNAME', APPNAME)
@@ -32,7 +32,7 @@ def configure(conf):
 def build(bld):
   bld.program(source='pkp.c libpkp.c', target='pkp', install_path=False)
   bld.shlib(source='libpkp.c', target='pkp')
-  list(map(lambda file: bld.program(source=file + '.hs', target=file),
-    ['Decode', 'Encode']))
+  list(map(lambda file: bld.program(source=file + '.rs', target=file),
+    ['decode', 'encode']))
   bld.install_files('${PREFIX}/include', 'pkp.h')
-  bld.install_files('${PREFIX}/lib/' + APPNAME, 'Encode Decode', chmod=0o755)
+  bld.install_files('${PREFIX}/lib/' + APPNAME, 'encode decode', chmod=0o755)
