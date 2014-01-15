@@ -25,25 +25,17 @@ fn write_pixels(rgba: &mut [u8], pixel_data: &[u8], palette: &[u8], mask: u8, st
 }
 
 fn to_rgba(colours: uint, palette: &[u8], pixel_data: &[u8]) -> ~[u8] {
-  let pixels_count_mult = if colours <= 2 {
-    8
+  let (pixels_count_mult, mask, step) = if colours <= 2 {
+    (8, 1, 1)
   } else if colours <= 4 {
-    4
+    (4, 3, 2)
   } else if colours <= 16 {
-    2
+    (2, 0xf, 4)
   } else {
-    1
+    (1, 0xff, 8)
   };
   let mut rgba = vec::from_elem(pixel_data.len() * pixels_count_mult * 4, 0u8);
-  if colours <= 2 {
-    write_pixels(rgba, pixel_data, palette, 1, 1);
-  } else if colours <= 4 {
-    write_pixels(rgba, pixel_data, palette, 3, 2);
-  } else if colours <= 16 {
-    write_pixels(rgba, pixel_data, palette, 0xf, 4);
-  } else {
-    write_pixels(rgba, pixel_data, palette, 0xff, 8);
-  };
+  write_pixels(rgba, pixel_data, palette, mask, step);
   rgba
 }
 
