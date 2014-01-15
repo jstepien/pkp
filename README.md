@@ -33,8 +33,7 @@ which shows how the library can be used can be found in `pkp.c`.
 
 ## Building
 
-Be sure to have [xz][xz], [GHC][ghc], [containers][containers]
-and Python installed. Afterwards execute
+Be sure to have [xz][xz], [Rust][rust], and Python installed. Afterwards execute
 
     ./waf configure --prefix /usr/local
     ./waf
@@ -48,7 +47,7 @@ The mapping is emitted to the output stream. Subsequently, for each pixel in
 the image the number of its colour is emitted. Finally, all the output is
 compressed using xz. Yes, it's that naïve.
 
-The encoding and decoding part is implemented in Haskell. The interface defined
+The encoding and decoding part is implemented in Rust. The interface defined
 in `pkp.h` is implemented in C. The C part manages pipes between the
 encoder/decoder and xz. Thanks to decoupling it's easy to work on raw,
 uncompressed data.
@@ -106,7 +105,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   [xz]: http://tukaani.org/xz/
-  [ghc]: http://www.haskell.org/ghc/
+  [rust]: http://www.rust-lang.org/
   [pic]: http://corpus.canterbury.ac.nz/descriptions/calgary/pic.html
   [lena]: http://en.wikipedia.org/wiki/File:Lenna.png
   [im]: http://www.imagemagick.org/
@@ -116,4 +115,3 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   [hilb]: http://en.wikipedia.org/wiki/Hilbert_curve
   [lzma]: http://en.wikipedia.org/wiki/LZMA
   [pkp]: http://en.wikipedia.org/wiki/Polish_State_Railways
-  [containers]: http://hackage.haskell.org/package/containers
