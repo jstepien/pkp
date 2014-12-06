@@ -61,7 +61,7 @@ fn emit_pixels(pal: &Palette, data: &[u8]) {
     (0, 0xff)
   };
   let at = |shift: uint, off: uint| {
-    let code = *pal.find(&make_key(data, shift_mult * shift + off)).unwrap();
+    let code = *pal.get(&make_key(data, shift_mult * shift + off)).unwrap();
     (code & mask) << shift
   };
   let next_byte_fn = if colours <= 2 {
@@ -107,7 +107,7 @@ fn main() {
   let data = stdin().read_to_end().unwrap();
   let palette = make_palette(data.as_slice());
   assert!(palette.len() <= 0x100);
-  emit([(width >> 8) as u8, (width & 0xff) as u8]);
+  emit([(width >> 8) as u8, (width & 0xff) as u8].as_slice());
   emit_palette(&palette);
   emit_pixels(&palette, data.as_slice());
 }
