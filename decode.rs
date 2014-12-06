@@ -1,7 +1,4 @@
-#[crate_type = "bin"];
-
 use std::io::{stdin, stdout};
-use std::vec;
 
 fn emit(rgba: &mut [u8], pos: uint, palette: &[u8], pix: u8) -> uint {
   let base = 4 * (pix as uint);
@@ -24,7 +21,7 @@ fn write_pixels(rgba: &mut [u8], pixel_data: &[u8], palette: &[u8], mask: u8, st
   }
 }
 
-fn to_rgba(colours: uint, palette: &[u8], pixel_data: &[u8]) -> ~[u8] {
+fn to_rgba(colours: uint, palette: &[u8], pixel_data: &[u8]) -> Vec<u8> {
   let (pixels_count_mult, mask, step) = if colours <= 2 {
     (8, 1, 1)
   } else if colours <= 4 {
@@ -34,16 +31,19 @@ fn to_rgba(colours: uint, palette: &[u8], pixel_data: &[u8]) -> ~[u8] {
   } else {
     (1, 0xff, 8)
   };
-  let mut rgba = vec::from_elem(pixel_data.len() * pixels_count_mult * 4, 0u8);
-  write_pixels(rgba, pixel_data, palette, mask, step);
+  let mut rgba = Vec::from_elem(pixel_data.len() * pixels_count_mult * 4, 0u8);
+  write_pixels(rgba.as_mut_slice(), pixel_data, palette, mask, step);
   rgba
 }
 
 fn main() {
   let mut stdin = stdin();
-  let header = stdin.read_bytes(3);
-  let colours = (header[2] as uint) + 1;
-  let palette = stdin.read_bytes(4 * colours);
-  let pixel_data = stdin.read_to_end();
-  stdout().write(to_rgba(colours, palette, pixel_data));
+  let output = {
+    let header = stdin.read_exact(3).unwrap();
+    let colours = (header[2] as uint) + 1;
+    let palette = stdin.read_exact(4 * colours).unwrap();
+    let pixel_data = stdin.read_to_end().unwrap();
+    to_rgba(colours, palette.as_slice(), pixel_data.as_slice())
+  };
+  let _ = stdout().write(output.as_slice()).unwrap();
 }
